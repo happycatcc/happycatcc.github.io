@@ -1,0 +1,57 @@
+# 网站设置
+title: CC猫在德国
+description: 一只程序猫在德国的生活记录
+baseurl: ""
+url: "https://happycatcc.github.io"
+
+# 构建设置
+markdown: kramdown
+permalink: /:year/:month/:day/:title/
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-paginate
+  - jekyll-sitemap
+
+# 分页设置
+paginate: 10
+paginate_path: "/page/:num/"
+
+# 作者信息
+author:
+  name: CC猫
+  email: thehappycatpodcast@gmail.com
+  bio: 一只在德国生活的程序猫，记录德国生活的点点滴滴
+  avatar: /assets/images/favicon.ico
+
+# 社交媒体链接
+social:
+  - title: xiaohongshu
+    url: https://www.xiaohongshu.com/user/profile/57502c5ba9b2ed73bc1dc832
+  - title: x-twitter
+    url: https://twitter.com/happycat_cc
+
+# 导航菜单
+navigation:
+  - title: 首页
+    url: /
+  - title: 德国生活
+    url: /life-in-germany/
+  - title: 工作求职
+    url: /work-in-germany/
+  - title: 学习德语
+    url: /learn-german/
+  - title: 关于
+    url: /about/
+
+# 分类设置
+category_settings:
+  life:
+    name: Life in Germany
+    description: 从柴米油盐到文化差异，记录在德国的日常生活
+  work:
+    name: Working in Germany
+    description: 程序猫在德国的职场故事与求职经验分享
+  german:
+    name: Learn German
+    description: 学习德语的心得体会和实用资源推荐 

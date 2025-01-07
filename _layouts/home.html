@@ -1,0 +1,39 @@
+---
+layout: default
+---
+
+<div class="home">
+    {{ content }}
+
+    <div class="post-list">
+        {% for post in site.posts %}
+        <article class="post-preview">
+            {% if post.image %}
+            <div class="post-image">
+                <a href="{{ post.url | relative_url }}">
+                    <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                </a>
+            </div>
+            {% endif %}
+            <div class="post-content">
+                <h2>
+                    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                </h2>
+                <div class="post-meta">
+                    <time>{{ post.date | date: "%Y-%m-%d" }}</time>
+                    {% if post.categories %}
+                    <span class="categories">
+                        {% for category in post.categories %}
+                        <a href="/categories/{{ category | slugify }}">{{ category }}</a>
+                        {% endfor %}
+                    </span>
+                    {% endif %}
+                </div>
+                <div class="post-excerpt">
+                    {{ post.excerpt | strip_html | truncatewords: 50 }}
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</div> 

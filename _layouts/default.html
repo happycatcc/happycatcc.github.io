@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if page.title %}{{ page.title }} - {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+    <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ '/assets/images/favicon.ico' | relative_url }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/images/apple-touch-icon.png' | relative_url }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/images/favicon-32x32.png' | relative_url }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/images/favicon-16x16.png' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-wrapper">
+            <div class="site-brand">
+                <a href="{{ '/' | relative_url }}" class="site-title">{{ site.title }}</a>
+                <p class="site-description">{{ site.description }}</p>
+            </div>
+            <nav class="site-nav">
+                {% for item in site.navigation %}
+                <a href="{{ item.url | relative_url }}" class="nav-link">{{ item.title }}</a>
+                {% endfor %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-main">
+        {{ content }}
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-wrapper">
+            <div class="footer-section about">
+                <h3>关于博主</h3>
+                <p>{{ site.author.bio }}</p>
+            </div>
+            <div class="footer-section social">
+                <h3>关注我</h3>
+                <div class="social-links">
+                    {% for social in site.social %}
+                    <a href="{{ social.url }}" target="_blank" class="social-link">
+                        {% if social.title == "xiaohongshu" %}
+                        <i class="fas fa-book" style="color: #ff2442;"></i>
+                        {% elsif social.title == "x-twitter" %}
+                        <i class="fa-brands fa-x-twitter"></i>
+                        {% else %}
+                        <i class="fab fa-{{ social.title }}"></i>
+                        {% endif %}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="footer-section contact">
+                <h3>联系方式</h3>
+                <p><i class="far fa-envelope"></i> {{ site.author.email }}</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; {{ site.time | date: '%Y' }} {{ site.author.name }}. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 
