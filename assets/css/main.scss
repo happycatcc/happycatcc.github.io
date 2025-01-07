@@ -3,6 +3,11 @@
 
 @use "sass:color";
 
+// Mixins
+@function lighten-color($color, $amount) {
+    @return lighten($color, $amount);
+}
+
 // 变量
 $primary-color: #2c3e50;
 $secondary-color: #3498db;
@@ -48,7 +53,7 @@ body {
         .site-description {
             margin: 0;
             font-size: 0.9rem;
-            color: color.adjust($text-color, $lightness: 20%);
+            color: lighten-color($text-color, 20%);
         }
     }
 
@@ -92,13 +97,13 @@ body {
         }
 
         .post-meta {
-            color: color.adjust($text-color, $lightness: 20%);
+            color: lighten-color($text-color, 20%);
             font-size: 0.9rem;
             margin-bottom: 1rem;
         }
 
         .post-excerpt {
-            color: color.adjust($text-color, $lightness: 10%);
+            color: lighten-color($text-color, 10%);
         }
     }
 }
@@ -119,7 +124,7 @@ body {
         }
 
         .post-meta {
-            color: color.adjust($text-color, $lightness: 20%);
+            color: lighten-color($text-color, 20%);
             font-size: 0.9rem;
 
             > span {
@@ -191,7 +196,7 @@ body {
         padding-top: 1rem;
         border-top: 1px solid $border-color;
         font-size: 0.9rem;
-        color: color.adjust($text-color, $lightness: 20%);
+        color: lighten-color($text-color, 20%);
     }
 }
 
@@ -262,7 +267,7 @@ body {
 
             .post-meta {
                 padding: 1rem;
-                color: color.adjust($text-color, $lightness: 20%);
+                color: lighten-color($text-color, 20%);
                 font-size: 0.9rem;
             }
 
@@ -321,7 +326,7 @@ body {
                 }
                 
                 .post-meta {
-                    color: color.adjust($text-color, $lightness: 20%);
+                    color: lighten-color($text-color, 20%);
                     font-size: 0.9rem;
                     margin-bottom: 1rem;
                     
@@ -343,7 +348,7 @@ body {
                 }
                 
                 .post-excerpt {
-                    color: color.adjust($text-color, $lightness: 10%);
+                    color: lighten-color($text-color, 10%);
                     line-height: 1.6;
                 }
             }
@@ -399,7 +404,7 @@ body {
 
         .intro {
             font-size: 1.2rem;
-            color: color.adjust($text-color, $lightness: 20%);
+            color: lighten-color($text-color, 20%);
         }
     }
 
