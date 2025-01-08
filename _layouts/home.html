@@ -3,50 +3,146 @@ layout: default
 ---
 
 <div class="home">
-    {{ content }}
+    <h1 class="section-title">搜索文章</h1>
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="输入关键词搜索..." autocomplete="off">
+        <div id="search-results"></div>
+    </div>
 
+    <h1 class="section-title">最新文章</h1>
     <div class="post-list">
-        {% for post in paginator.posts %}
-        {% if forloop.index == 3 %}
-        <div class="home-ad" style="margin: 2rem 0; text-align: center;">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-5401904582868351"
-                 data-ad-slot="9876543210"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
-        {% endif %}
-        <article class="post-preview">
-            {% if post.image %}
-            <div class="post-image">
-                <a href="{{ post.url | relative_url }}">
-                    <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
-                </a>
+        {% if paginator.posts %}
+            {% for post in paginator.posts %}
+            <article class="post-preview">
+                {% if post.image %}
+                <div class="post-image">
+                    <a href="{{ post.url | relative_url }}">
+                        <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                    </a>
+                </div>
+                {% endif %}
+                <div class="post-content">
+                    <h2>
+                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                    </h2>
+                    <div class="post-meta">
+                        <time>{{ post.date | date: "%Y-%m-%d" }}</time>
+                        {% if post.categories %}
+                        <span class="categories">
+                            {% for category in post.categories %}
+                            <a href="/categories/{{ category | slugify }}">{{ category }}</a>
+                            {% endfor %}
+                        </span>
+                        {% endif %}
+                    </div>
+                    <div class="post-excerpt">
+                        {{ post.excerpt | strip_html | truncatewords: 50 }}
+                    </div>
+                </div>
+            </article>
+
+            {% if forloop.index == 3 %}
+            <div class="home-ad" style="margin: 2rem 0; text-align: center;">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-5401904582868351"
+                     data-ad-slot="9876543210"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
             {% endif %}
-            <div class="post-content">
-                <h2>
-                    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-                </h2>
-                <div class="post-meta">
-                    <time>{{ post.date | date: "%Y-%m-%d" }}</time>
-                    {% if post.categories %}
-                    <span class="categories">
-                        {% for category in post.categories %}
-                        <a href="/categories/{{ category | slugify }}">{{ category }}</a>
-                        {% endfor %}
-                    </span>
-                    {% endif %}
+            {% endfor %}
+        {% else %}
+            {% for post in site.posts %}
+            <article class="post-preview">
+                {% if post.image %}
+                <div class="post-image">
+                    <a href="{{ post.url | relative_url }}">
+                        <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                    </a>
                 </div>
-                <div class="post-excerpt">
-                    {{ post.excerpt | strip_html | truncatewords: 50 }}
+                {% endif %}
+                <div class="post-content">
+                    <h2>
+                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                    </h2>
+                    <div class="post-meta">
+                        <time>{{ post.date | date: "%Y-%m-%d" }}</time>
+                        {% if post.categories %}
+                        <span class="categories">
+                            {% for category in post.categories %}
+                            <a href="/categories/{{ category | slugify }}">{{ category }}</a>
+                            {% endfor %}
+                        </span>
+                        {% endif %}
+                    </div>
+                    <div class="post-excerpt">
+                        {{ post.excerpt | strip_html | truncatewords: 50 }}
+                    </div>
                 </div>
-            </div>
-        </article>
-        {% endfor %}
+            </article>
+            {% endfor %}
+        {% endif %}
     </div>
+
+    {% if paginator.total_pages > 1 %}
+    <div class="pagination">
+        {% if paginator.previous_page %}
+        <a href="{{ paginator.previous_page_path | relative_url }}" class="prev">&laquo; 上一页</a>
+        {% endif %}
+
+        <span class="page_number">
+            第 {{ paginator.page }} 页 / 共 {{ paginator.total_pages }} 页
+        </span>
+
+        {% if paginator.next_page %}
+        <a href="{{ paginator.next_page_path | relative_url }}" class="next">下一页 &raquo;</a>
+        {% endif %}
+    </div>
+    {% endif %}
 </div> 
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const postList = document.querySelector('.post-list');
+    const originalContent = postList.innerHTML;
+
+    fetch('{{ "/search.json" | relative_url }}')
+        .then(response => response.json())
+        .then(posts => {
+            const searchInput = document.getElementById('search-input');
+            const resultsDiv = document.getElementById('search-results');
+
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const sectionTitles = document.querySelectorAll('.section-title');
+                if (searchTerm.length < 2) {
+                    resultsDiv.innerHTML = '';
+                    postList.innerHTML = originalContent;
+                    document.querySelector('.pagination').style.display = 'flex';
+                    sectionTitles[1].style.display = 'block';
+                    return;
+                }
+
+                const results = posts.filter(post => 
+                    post.title.toLowerCase().includes(searchTerm) ||
+                    post.content.toLowerCase().includes(searchTerm)
+                );
+
+                postList.innerHTML = '';
+                resultsDiv.innerHTML = results.map(post => `
+                    <div class="search-result">
+                        <h3><a href="${post.url}">${post.title}</a></h3>
+                        <time>${post.date}</time>
+                        <p>${post.excerpt}</p>
+                    </div>
+                `).join('');
+                document.querySelector('.pagination').style.display = 'none';
+                sectionTitles[1].style.display = 'none';
+            });
+        });
+});
+</script> 

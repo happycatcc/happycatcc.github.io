@@ -284,6 +284,37 @@ body {
     margin: 0 auto;
     padding: 2rem;
 
+    .section-title {
+        text-align: center;
+        color: $primary-color;
+        margin: 2rem 0;
+        font-size: 2rem;
+    }
+
+    .search-container {
+        max-width: 600px;
+        margin: 0 auto 4rem;
+
+        #search-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.2rem;
+            border: 2px solid $border-color;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            
+            &:focus {
+                outline: none;
+                border-color: $secondary-color;
+                box-shadow: 0 0 10px rgba($secondary-color, 0.1);
+            }
+        }
+
+        #search-results {
+            margin-top: 2rem;
+        }
+    }
+
     .post-list {
         article.post-preview {
             margin-bottom: 3rem;
@@ -573,6 +604,87 @@ body {
 
         .contact-methods {
             flex-wrap: wrap;
+        }
+    }
+}
+
+// 分页样式
+.pagination {
+    text-align: center;
+    padding: 2rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    a {
+        color: $text-color;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        
+        &:hover {
+            background: $light-gray;
+            color: $secondary-color;
+        }
+    }
+
+    .page_number {
+        color: lighten-color($text-color, 20%);
+    }
+}
+
+// 搜索页面样式
+.search-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+
+    .search-container {
+        margin-bottom: 2rem;
+
+        #search-input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.2rem;
+            border: 2px solid $border-color;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            
+            &:focus {
+                outline: none;
+                border-color: $secondary-color;
+            }
+        }
+    }
+
+    .search-result {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid $border-color;
+
+        h3 {
+            margin: 0 0 0.5rem;
+            
+            a {
+                color: $primary-color;
+                text-decoration: none;
+                
+                &:hover {
+                    color: $secondary-color;
+                }
+            }
+        }
+
+        time {
+            color: lighten-color($text-color, 20%);
+            font-size: 0.9rem;
+        }
+
+        p {
+            margin-top: 0.5rem;
+            color: lighten-color($text-color, 10%);
         }
     }
 } 

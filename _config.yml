@@ -15,7 +15,7 @@ plugins:
 
 # 分页设置
 paginate: 10
-paginate_path: "/page/:num/"
+paginate_path: "/blog/page/:num/"
 
 # 作者信息
 author:
